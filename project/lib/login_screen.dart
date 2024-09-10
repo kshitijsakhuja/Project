@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'phone_verification_screen.dart';
+import 'signup_page.dart';
+import 'phone_verification_screen.dart'; // Make sure to import the screen properly
 
 void main() {
   runApp(const MyApp());
@@ -24,121 +25,145 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  String _selectedCountryCode = "+91";
+  final TextEditingController _phoneController = TextEditingController();
+  String _selectedCountryCode = '+91'; // Default country code
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.green, // Set background color to green
-      body: SafeArea(
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(16.0),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(25.0),
-                  ),
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          InkWell(
-                            onTap: () {
-                              // Add login tab functionality
-                            },
-                            child: const Text(
-                              "Log In",
-                              style: TextStyle(
-                                fontSize: 18.0,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black,
-                              ),
+      backgroundColor: Colors.green, // Background color for the upper part
+      body: Column(
+        children: [
+          const SizedBox(height: 100), // To push the content a bit down
+          Expanded(
+            child: Container(
+              decoration: const BoxDecoration(
+                color: Colors.white, // Main container background
+                borderRadius: BorderRadius.vertical(
+                  top: Radius.circular(30),
+                ),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Login/Signup tabs
+                    Row(
+                      children: [
+                        const Text(
+                          'Log In',
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ),
+                        ),
+                        const SizedBox(width: 20),
+                        GestureDetector(
+                          onTap: () {
+                            // Navigate to SignUpScreen
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const SignUpScreen()),
+                            );
+                          },
+                          child: const Text(
+                            'Sign Up',
+                            style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.normal,
+                              color: Colors.grey,
                             ),
                           ),
-                          InkWell(
-                            onTap: () {
-                              // Add signup tab functionality
-                            },
-                            child: const Text(
-                              "Sign Up",
-                              style: TextStyle(
-                                fontSize: 18.0,
-                                fontWeight: FontWeight.normal,
-                                color: Colors.grey,
-                              ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+                    const Text(
+                      'Login with your phone number',
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Colors.black54,
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    // Country code dropdown and phone input
+                    Row(
+                      children: [
+                        DropdownButton<String>(
+                          value: _selectedCountryCode,
+                          items: ['+91', '+1', '+44', '+61', '+81']
+                              .map((code) => DropdownMenuItem<String>(
+                            value: code,
+                            child: Text(code),
+                          ))
+                              .toList(),
+                          onChanged: (value) {
+                            setState(() {
+                              _selectedCountryCode = value!;
+                            });
+                          },
+                        ),
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: TextField(
+                            controller: _phoneController,
+                            keyboardType: TextInputType.phone,
+                            decoration: const InputDecoration(
+                              hintText: 'Phone number',
+                              border: UnderlineInputBorder(),
                             ),
                           ),
-                        ],
-                      ),
-                      const SizedBox(height: 20.0),
-                      const Text(
-                        "Login with your phone number",
-                        style: TextStyle(color: Colors.grey),
-                      ),
-                      const SizedBox(height: 20.0),
-                      Row(
-                        children: [
-                          DropdownButton<String>(
-                            value: _selectedCountryCode,
-                            items: <String>['+91', '+1', '+44', '+61']
-                                .map<DropdownMenuItem<String>>((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value),
-                              );
-                            }).toList(),
-                            onChanged: (String? newValue) {
-                              setState(() {
-                                _selectedCountryCode = newValue!;
-                              });
-                            },
-                          ),
-                          const Expanded(
-                            child: TextField(
-                              keyboardType: TextInputType.phone,
-                              decoration: InputDecoration(
-                                border: UnderlineInputBorder(),
-                                hintText: 'Phone Number',
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 20.0),
-                      ElevatedButton(
+                        ),
+                      ],
+                    ),
+                    const Spacer(),
+                    // Log in button
+                    Center(
+                      child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.black,
-                          padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 100.0),
+                          backgroundColor: Colors.black, // Button background
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 50, vertical: 15),
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8.0),
+                            borderRadius: BorderRadius.circular(10),
                           ),
                         ),
                         onPressed: () {
+                          // Print phone number for logging
+                          print('Logging in with phone: ${_phoneController.text}');
+
+                          // Navigate to PhoneVerificationScreen with the phone number
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => const PhoneVerificationApp()),
+                            MaterialPageRoute(
+                              builder: (context) => const PhoneVerificationScreen(),
+                            ),
                           );
                         },
                         child: const Text(
                           'LOG IN',
-                          style: TextStyle(color: Colors.white),
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                          ),
                         ),
                       ),
-
-                    ],
-                  ),
+                    ),
+                    const SizedBox(height: 20),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
-        ),
+        ],
       ),
     );
   }
 }
+
+
+
+

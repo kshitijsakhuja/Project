@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'home_screen.dart';
 import 'login_screen.dart';
-import 'phone_verification_screen.dart';
+import 'signup_page.dart';
+
 
 void main() {
   runApp(const MyApp());
@@ -88,7 +88,7 @@ class OnboardingScreen extends StatelessWidget {
                       debugPrint('Get Started button pressed.');
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const LoginScreen()),
+                        MaterialPageRoute(builder: (context) => const SignUpScreen()),
                       );
                     },
                     child: const Row(
