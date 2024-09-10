@@ -92,28 +92,45 @@ class _LoginScreenState extends State<LoginScreen> {
                     // Country code dropdown and phone input
                     Row(
                       children: [
-                        DropdownButton<String>(
-                          value: _selectedCountryCode,
-                          items: ['+91', '+1', '+44', '+61', '+81']
-                              .map((code) => DropdownMenuItem<String>(
-                            value: code,
-                            child: Text(code),
-                          ))
-                              .toList(),
-                          onChanged: (value) {
-                            setState(() {
-                              _selectedCountryCode = value!;
-                            });
-                          },
+                        // Wrapping DropdownButton in a Container to control size
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.grey),
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                          child: DropdownButton<String>(
+                            value: _selectedCountryCode,
+                            items: ['+91', '+1', '+44', '+61', '+81']
+                                .map((code) => DropdownMenuItem<String>(
+                              value: code,
+                              child: Text(code),
+                            ))
+                                .toList(),
+                            onChanged: (value) {
+                              setState(() {
+                                _selectedCountryCode = value!;
+                              });
+                            },
+                            underline: const SizedBox(), // Removing underline
+                          ),
                         ),
                         const SizedBox(width: 10),
+                        // Wrapping TextField in a Container for consistent height
                         Expanded(
-                          child: TextField(
-                            controller: _phoneController,
-                            keyboardType: TextInputType.phone,
-                            decoration: const InputDecoration(
-                              hintText: 'Phone number',
-                              border: UnderlineInputBorder(),
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            decoration: BoxDecoration(
+                              border: Border.all(color: Colors.grey),
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            child: TextField(
+                              controller: _phoneController,
+                              keyboardType: TextInputType.phone,
+                              decoration: const InputDecoration(
+                                hintText: 'Phone number',
+                                border: InputBorder.none, // Removing the default border
+                              ),
                             ),
                           ),
                         ),
@@ -163,7 +180,3 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 }
-
-
-
-
