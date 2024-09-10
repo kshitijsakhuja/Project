@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'onboarding_screen.dart';
+import 'phone_verification_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -114,20 +114,23 @@ class _LoginScreenState extends State<LoginScreen> {
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.black,
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 16.0, horizontal: 100.0),
+                          padding: const EdgeInsets.symmetric(vertical: 16.0, horizontal: 100.0),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8.0),
                           ),
                         ),
                         onPressed: () {
-                          // Add login functionality
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => const PhoneVerificationApp()),
+                          );
                         },
                         child: const Text(
                           'LOG IN',
                           style: TextStyle(color: Colors.white),
                         ),
                       ),
+
                     ],
                   ),
                 ),

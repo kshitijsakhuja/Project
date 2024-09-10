@@ -88,7 +88,7 @@ class OnboardingScreen extends StatelessWidget {
                       debugPrint('Get Started button pressed.');
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const PhoneVerificationScreen()),
+                        MaterialPageRoute(builder: (context) => const LoginScreen()),
                       );
                     },
                     child: const Row(
@@ -139,22 +139,3 @@ class OnboardingScreen extends StatelessWidget {
   }
 }
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    print('Navigated to LoginScreen');
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Login'),
-      ),
-      body: const Center(
-        child: Text(
-          'Login Screen',
-          style: TextStyle(fontSize: 24),
-        ),
-      ),
-    );
-  }
-}
