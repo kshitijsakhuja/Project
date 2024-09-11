@@ -26,8 +26,8 @@ class SignUpScreen extends StatelessWidget {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        // Navigate to LoginScreen
-                        Navigator.push(
+                        // Navigate to LoginScreen with pushReplacement
+                        Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                             builder: (context) => const LoginScreen(),
@@ -131,7 +131,7 @@ class SignUpScreen extends StatelessWidget {
                               ),
                             ),
                             onPressed: () {
-                              // Handle sign up
+                              // Handle sign up action
                             },
                             child: const Text(
                               'SIGN UP',

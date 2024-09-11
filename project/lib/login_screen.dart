@@ -62,8 +62,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         const SizedBox(width: 20),
                         GestureDetector(
                           onTap: () {
-                            // Navigate to SignUpScreen
-                            Navigator.push(
+                            // Navigate to SignUpScreen with pushReplacement
+                            Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => const SignUpScreen()),
@@ -152,8 +152,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           // Print phone number for logging
                           print('Logging in with phone: ${_phoneController.text}');
 
-                          // Navigate to PhoneVerificationScreen with the phone number
-                          Navigator.push(
+                          // Navigate to PhoneVerificationScreen using pushReplacement
+                          Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
                               builder: (context) => const PhoneVerificationScreen(),
