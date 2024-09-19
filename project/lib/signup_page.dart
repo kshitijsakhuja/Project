@@ -12,58 +12,80 @@ class SignUpScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        backgroundColor: Colors.green,
-        body: SafeArea(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              // Login / Sign Up Tabs
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        // Navigate to LoginScreen with pushReplacement
-                        Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const LoginScreen(),
-                          ),
-                        );
-                      },
-                      child: const Text(
-                        "Log In",
-                        style: TextStyle(
-                          color: Colors.white,
+      home: const SignUpForm(),
+    );
+  }
+}
+
+class SignUpForm extends StatefulWidget {
+  const SignUpForm({super.key});
+
+  @override
+  _SignUpFormState createState() => _SignUpFormState();
+}
+
+class _SignUpFormState extends State<SignUpForm> {
+  final _formKey = GlobalKey<FormState>();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
+  String? selectedCountryCode = '+91';
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.green,
+      body: SafeArea(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            // Login / Sign Up Tabs
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      // Navigate to LoginScreen with pushReplacement
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const LoginScreen(),
                         ),
-                      ),
-                    ),
-                    const SizedBox(width: 16),
-                    const Text(
-                      "Sign Up",
+                      );
+                    },
+                    child: const Text(
+                      "Log In",
                       style: TextStyle(
                         color: Colors.white,
-                        fontWeight: FontWeight.bold,
                       ),
                     ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 16),
-              Expanded(
-                child: Container(
-                  width: double.infinity, // Full width
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.vertical(
-                      top: Radius.circular(40),
+                  ),
+                  const SizedBox(width: 16),
+                  const Text(
+                    "Sign Up",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(20.0),
+                ],
+              ),
+            ),
+            const SizedBox(height: 16),
+            Expanded(
+              child: Container(
+                width: double.infinity, // Full width
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(40),
+                  ),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Form(
+                    key: _formKey,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -73,11 +95,28 @@ class SignUpScreen extends StatelessWidget {
                           style: TextStyle(fontSize: 16),
                         ),
                         const SizedBox(height: 20),
-                        const TextField(
-                          decoration: InputDecoration(
+                        // Email Input Field
+                        TextFormField(
+                          controller: emailController,
+                          decoration: const InputDecoration(
                             labelText: "Email",
                             border: UnderlineInputBorder(),
                           ),
+                          keyboardType: TextInputType.emailAddress,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter your email';
+                            }
+                            // Add a basic email validation pattern
+                            final emailPattern =
+                                r'^[\w-]+@([\w-]+\.)+[\w-]{2,4}$';
+                            final isValidEmail = RegExp(emailPattern)
+                                .hasMatch(value);
+                            if (!isValidEmail) {
+                              return 'Please enter a valid email address';
+                            }
+                            return null;
+                          },
                         ),
                         const SizedBox(height: 20),
                         Row(
@@ -89,7 +128,7 @@ class SignUpScreen extends StatelessWidget {
                                 decoration: const InputDecoration(
                                   border: UnderlineInputBorder(),
                                 ),
-                                value: '+91',
+                                value: selectedCountryCode,
                                 items: <String>['+91', '+1', '+44', '+61']
                                     .map<DropdownMenuItem<String>>(
                                         (String value) {
@@ -98,19 +137,34 @@ class SignUpScreen extends StatelessWidget {
                                         child: Text(value),
                                       );
                                     }).toList(),
-                                onChanged: (String? newValue) {},
+                                onChanged: (String? newValue) {
+                                  setState(() {
+                                    selectedCountryCode = newValue;
+                                  });
+                                },
                               ),
                             ),
                             const SizedBox(width: 10),
                             // Phone Number Field
-                            const Expanded(
+                            Expanded(
                               flex: 5,
-                              child: TextField(
+                              child: TextFormField(
+                                controller: phoneController,
                                 keyboardType: TextInputType.phone,
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                   hintText: "Phone number",
                                   border: UnderlineInputBorder(),
                                 ),
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Please enter your phone number';
+                                  }
+                                  // Add basic phone number validation
+                                  if (value.length < 10) {
+                                    return 'Please enter a valid phone number';
+                                  }
+                                  return null;
+                                },
                               ),
                             ),
                           ],
@@ -131,7 +185,15 @@ class SignUpScreen extends StatelessWidget {
                               ),
                             ),
                             onPressed: () {
-                              // Handle sign up action
+                              if (_formKey.currentState!.validate()) {
+                                // Handle successful form submission
+                                // You can use the emailController and phoneController values here
+                                final email = emailController.text;
+                                final phone = phoneController.text;
+                                print(
+                                    "Email: $email, Phone: $selectedCountryCode$phone");
+                                // Proceed with sign-up logic
+                              }
                             },
                             child: const Text(
                               'SIGN UP',
@@ -149,8 +211,8 @@ class SignUpScreen extends StatelessWidget {
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
