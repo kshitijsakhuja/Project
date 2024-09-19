@@ -12,80 +12,58 @@ class SignUpScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const SignUpForm(),
-    );
-  }
-}
-
-class SignUpForm extends StatefulWidget {
-  const SignUpForm({super.key});
-
-  @override
-  _SignUpFormState createState() => _SignUpFormState();
-}
-
-class _SignUpFormState extends State<SignUpForm> {
-  final _formKey = GlobalKey<FormState>();
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController phoneController = TextEditingController();
-  String? selectedCountryCode = '+91';
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.green,
-      body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            // Login / Sign Up Tabs
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      // Navigate to LoginScreen with pushReplacement
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const LoginScreen(),
+      home: Scaffold(
+        backgroundColor: Colors.green,
+        body: SafeArea(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              // Login / Sign Up Tabs
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        // Navigate to LoginScreen
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const LoginScreen(),
+                          ),
+                        );
+                      },
+                      child: const Text(
+                        "Log In",
+                        style: TextStyle(
+                          color: Colors.white,
                         ),
-                      );
-                    },
-                    child: const Text(
-                      "Log In",
-                      style: TextStyle(
-                        color: Colors.white,
                       ),
                     ),
-                  ),
-                  const SizedBox(width: 16),
-                  const Text(
-                    "Sign Up",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
+                    const SizedBox(width: 16),
+                    const Text(
+                      "Sign Up",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 16),
+              Expanded(
+                child: Container(
+                  width: double.infinity, // Full width
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(40),
                     ),
                   ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 16),
-            Expanded(
-              child: Container(
-                width: double.infinity, // Full width
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.vertical(
-                    top: Radius.circular(40),
-                  ),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Form(
-                    key: _formKey,
+                  child: Padding(
+                    padding: const EdgeInsets.all(20.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -95,28 +73,11 @@ class _SignUpFormState extends State<SignUpForm> {
                           style: TextStyle(fontSize: 16),
                         ),
                         const SizedBox(height: 20),
-                        // Email Input Field
-                        TextFormField(
-                          controller: emailController,
-                          decoration: const InputDecoration(
+                        const TextField(
+                          decoration: InputDecoration(
                             labelText: "Email",
                             border: UnderlineInputBorder(),
                           ),
-                          keyboardType: TextInputType.emailAddress,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Please enter your email';
-                            }
-                            // Add a basic email validation pattern
-                            final emailPattern =
-                                r'^[\w-]+@([\w-]+\.)+[\w-]{2,4}$';
-                            final isValidEmail = RegExp(emailPattern)
-                                .hasMatch(value);
-                            if (!isValidEmail) {
-                              return 'Please enter a valid email address';
-                            }
-                            return null;
-                          },
                         ),
                         const SizedBox(height: 20),
                         Row(
@@ -128,7 +89,7 @@ class _SignUpFormState extends State<SignUpForm> {
                                 decoration: const InputDecoration(
                                   border: UnderlineInputBorder(),
                                 ),
-                                value: selectedCountryCode,
+                                value: '+91',
                                 items: <String>['+91', '+1', '+44', '+61']
                                     .map<DropdownMenuItem<String>>(
                                         (String value) {
@@ -137,34 +98,19 @@ class _SignUpFormState extends State<SignUpForm> {
                                         child: Text(value),
                                       );
                                     }).toList(),
-                                onChanged: (String? newValue) {
-                                  setState(() {
-                                    selectedCountryCode = newValue;
-                                  });
-                                },
+                                onChanged: (String? newValue) {},
                               ),
                             ),
                             const SizedBox(width: 10),
                             // Phone Number Field
-                            Expanded(
+                            const Expanded(
                               flex: 5,
-                              child: TextFormField(
-                                controller: phoneController,
+                              child: TextField(
                                 keyboardType: TextInputType.phone,
-                                decoration: const InputDecoration(
+                                decoration: InputDecoration(
                                   hintText: "Phone number",
                                   border: UnderlineInputBorder(),
                                 ),
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return 'Please enter your phone number';
-                                  }
-                                  // Add basic phone number validation
-                                  if (value.length < 10) {
-                                    return 'Please enter a valid phone number';
-                                  }
-                                  return null;
-                                },
                               ),
                             ),
                           ],
@@ -185,15 +131,7 @@ class _SignUpFormState extends State<SignUpForm> {
                               ),
                             ),
                             onPressed: () {
-                              if (_formKey.currentState!.validate()) {
-                                // Handle successful form submission
-                                // You can use the emailController and phoneController values here
-                                final email = emailController.text;
-                                final phone = phoneController.text;
-                                print(
-                                    "Email: $email, Phone: $selectedCountryCode$phone");
-                                // Proceed with sign-up logic
-                              }
+                              // Handle sign up
                             },
                             child: const Text(
                               'SIGN UP',
@@ -211,8 +149,8 @@ class _SignUpFormState extends State<SignUpForm> {
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
