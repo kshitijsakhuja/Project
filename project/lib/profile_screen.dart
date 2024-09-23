@@ -49,7 +49,7 @@ class ProfileScreen extends StatelessWidget {
               ),
               const SizedBox(height: 10),
               const Text(
-                'Victoria Heard',
+                'Kshitij Sakhuja',
                 style: TextStyle(color: Colors.black, fontSize: 24, fontWeight: FontWeight.bold), // Changed text color to black for readability
               ),
               const Text(

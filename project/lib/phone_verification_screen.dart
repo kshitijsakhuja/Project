@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'home_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -104,6 +105,12 @@ class _PhoneVerificationScreenState extends State<PhoneVerificationScreen> {
                         // Add logic for verifying the OTP here
                         String otp = otpControllers.map((e) => e.text).join();
                         print("Entered OTP: $otp");
+
+                        // Navigate to HomeScreen
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const VehicleSelectionScreen()),
+                        );
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.black,
@@ -129,3 +136,4 @@ class _PhoneVerificationScreenState extends State<PhoneVerificationScreen> {
     );
   }
 }
+

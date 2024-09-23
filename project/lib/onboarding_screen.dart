@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'login_screen.dart';
 import 'signup_page.dart';
-import 'profile_screen.dart';
+import 'chatbot_screen.dart';
+import 'home_screen.dart';
 
 void main() {
   runApp(const MyApp());

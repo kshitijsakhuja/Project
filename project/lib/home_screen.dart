@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
-
-void main() {
-  runApp(const MaterialApp(
-    home: VehicleSelectionScreen(),
-  ));
-}
+import 'package:google_maps_flutter/google_maps_flutter.dart'; // Don't forget this import
+import 'map_page.dart'; // Import the MapWidget
 
 class VehicleSelectionScreen extends StatelessWidget {
   const VehicleSelectionScreen({super.key});
@@ -13,56 +9,161 @@ class VehicleSelectionScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('ZoopE'),
         backgroundColor: Colors.white,
         elevation: 0,
-        actions: const [
-          Padding(
-            padding: EdgeInsets.only(right: 16.0),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
+          onPressed: () {},
+        ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.notifications, color: Colors.black),
+            onPressed: () {},
+          ),
+        ],
+        title: DropdownButton<String>(
+          value: "India",
+          icon: const Icon(Icons.arrow_drop_down),
+          onChanged: (String? newValue) {},
+          items: <String>['Singapore', 'New York', 'London', 'India']
+              .map<DropdownMenuItem<String>>((String value) {
+            return DropdownMenuItem<String>(
+              value: value,
+              child: Text(value),
+            );
+          }).toList(),
+        ),
+      ),
+      body: Column(
+        children: [
+          // Map Section
+          Expanded(
+            flex: 2,
+            child: Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Stack(
+                children: [
+                  // Reusable Google Map Widget
+                  const MapPage(),  // Use the imported MapWidget here
+
+                  Positioned(
+                    top: 10,
+                    left: 10,
+                    child: Row(
+                      children: [
+                        ElevatedButton(
+                          onPressed: () {},
+                          child: const Text('Nearby'),
+                        ),
+                        const SizedBox(width: 10),
+                        ElevatedButton(
+                          onPressed: () {},
+                          child: const Text('Cheapest'),
+                        ),
+                        IconButton(
+                          icon: const Icon(Icons.filter_alt_outlined),
+                          onPressed: () {},
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          // Vehicle Section
+          Expanded(
+            flex: 1,
+            child: Container(
+              padding: const EdgeInsets.all(16),
+              child: ListView(
+                children: [
+                  buildVehicleCard(context, 'Bike', '429 km', '6 min', '24'),
+                ],
+              ),
+            ),
           ),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+      // Bottom Navigation
+      bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.white,
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.map),
+            label: 'Map',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.search),
+            label: 'Search',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.favorite),
+            label: 'Favorites',
+          ),
+          BottomNavigationBarItem(
+            icon: CircleAvatar(
+              backgroundImage: AssetImage('assets/images.png'),
+              radius: 12,
+            ),
+            label: '',
+          ),
+        ],
+        selectedItemColor: Colors.black,
+        unselectedItemColor: Colors.black,
+      ),
+    );
+  }
+
+  Widget buildVehicleCard(BuildContext context, String name, String distance, String time, String price) {
+    return Card(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
           children: [
-            Row(
+            Image.asset(
+              'assets/icons/electric_bike.png',
+              height: 80,
+              width: 120,
+            ),
+            const SizedBox(width: 16),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Hey Kshitij',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.green[700],
-                  ),
+                  name,
+                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
                 ),
-                const Spacer(),
-                const CircleAvatar(
-                  backgroundImage: AssetImage('assets/icons/user_image.png'),
-                  radius: 20,
+                const SizedBox(height: 4),
+                Row(
+                  children: [
+                    const Icon(Icons.battery_charging_full, size: 16, color: Colors.grey),
+                    const SizedBox(width: 4),
+                    Text(distance),
+                    const SizedBox(width: 16),
+                    const Icon(Icons.timer, size: 16, color: Colors.grey),
+                    const SizedBox(width: 4),
+                    Text(time),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                Row(
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {},
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white,
+                      ),
+                      child: const Text('Book'),
+                    ),
+                    const SizedBox(width: 16),
+                    Text('\₹$price/h', style: const TextStyle(fontSize: 16)),
+                  ],
                 ),
               ],
-            ),
-            const SizedBox(height: 8),
-            const Text(
-              'Choose your vehicle',
-              style: TextStyle(
-                fontSize: 18,
-                color: Colors.black54,
-              ),
-            ),
-            const SizedBox(height: 16),
-            const Divider(color: Colors.green, thickness: 2),
-            const SizedBox(height: 16),
-            const VehicleCard(
-              vehicleType: 'ELECTRIC CYCLE',
-              imageUrl: 'assets/icons/electric_bike.png',
-            ),
-            const SizedBox(height: 16),
-            const VehicleCard(
-              vehicleType: 'ELECTRIC SCOOTER',
-              imageUrl: 'assets/icons/electric_bike.png',
             ),
           ],
         ),
@@ -71,38 +172,9 @@ class VehicleSelectionScreen extends StatelessWidget {
   }
 }
 
-class VehicleCard extends StatelessWidget {
-  final String vehicleType;
-  final String imageUrl;
-
-  const VehicleCard({super.key, required this.vehicleType, required this.imageUrl});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.green),
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Image.asset(imageUrl, height: 150),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0),
-            child: Text(
-              vehicleType,
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Colors.green[700],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+void main() {
+  runApp(const MaterialApp(
+    debugShowCheckedModeBanner: false,
+    home: VehicleSelectionScreen(),
+  ));
 }

@@ -30,6 +30,13 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  google_maps_flutter: ^2.9.0
+  flutter_polyline_points: ^2.1.0
+  location: ^7.0.0
+  font_awesome_flutter: ^10.7.0
+  geolocator: ^9.0.2
+  http: ^1.2.2
+
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -65,6 +72,7 @@ flutter:
     - assets/E-bicycle.png
     - assets/bike_image.png
     - assets/bike_image.jpg
+    - assets/images.png
     - assets/icons/arrow_back.png
     - assets/icons/logout.png
     - assets/new_logo.png
