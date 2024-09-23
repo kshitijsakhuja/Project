@@ -76,7 +76,11 @@ class SignUpScreen extends StatelessWidget {
                         const TextField(
                           decoration: InputDecoration(
                             labelText: "Email",
-                            border: UnderlineInputBorder(),
+                            border: OutlineInputBorder(), // Box style
+                            contentPadding: EdgeInsets.symmetric(
+                              vertical: 15.0,
+                              horizontal: 12.0,
+                            ),
                           ),
                         ),
                         const SizedBox(height: 20),
@@ -87,7 +91,11 @@ class SignUpScreen extends StatelessWidget {
                               flex: 2,
                               child: DropdownButtonFormField<String>(
                                 decoration: const InputDecoration(
-                                  border: UnderlineInputBorder(),
+                                  border: OutlineInputBorder(), // Box style
+                                  contentPadding: EdgeInsets.symmetric(
+                                    vertical: 15.0,
+                                    horizontal: 12.0,
+                                  ),
                                 ),
                                 value: '+91',
                                 items: <String>['+91', '+1', '+44', '+61']
@@ -109,7 +117,11 @@ class SignUpScreen extends StatelessWidget {
                                 keyboardType: TextInputType.phone,
                                 decoration: InputDecoration(
                                   hintText: "Phone number",
-                                  border: UnderlineInputBorder(),
+                                  border: OutlineInputBorder(), // Box style
+                                  contentPadding: EdgeInsets.symmetric(
+                                    vertical: 15.0,
+                                    horizontal: 12.0,
+                                  ),
                                 ),
                               ),
                             ),
