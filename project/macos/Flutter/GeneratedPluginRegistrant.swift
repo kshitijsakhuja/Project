@@ -5,14 +5,16 @@
 import FlutterMacOS
 import Foundation
 
-import firebase_auth
+import file_selector_macos
 import firebase_core
+import firebase_database
 import geolocator_apple
 import location
 
 func RegisterGeneratedPlugins(registry: FlutterPluginRegistry) {
-  FLTFirebaseAuthPlugin.register(with: registry.registrar(forPlugin: "FLTFirebaseAuthPlugin"))
+  FileSelectorPlugin.register(with: registry.registrar(forPlugin: "FileSelectorPlugin"))
   FLTFirebaseCorePlugin.register(with: registry.registrar(forPlugin: "FLTFirebaseCorePlugin"))
+  FLTFirebaseDatabasePlugin.register(with: registry.registrar(forPlugin: "FLTFirebaseDatabasePlugin"))
   GeolocatorPlugin.register(with: registry.registrar(forPlugin: "GeolocatorPlugin"))
   LocationPlugin.register(with: registry.registrar(forPlugin: "LocationPlugin"))
 }

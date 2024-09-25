@@ -1,9 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart'; // Don't forget this import
 import 'map_page.dart'; // Import the MapWidget
+import 'profile_screen.dart';
 
-class VehicleSelectionScreen extends StatelessWidget {
+class VehicleSelectionScreen extends StatefulWidget {
   const VehicleSelectionScreen({super.key});
+
+  @override
+  _VehicleSelectionScreenState createState() => _VehicleSelectionScreenState();
+}
+
+class _VehicleSelectionScreenState extends State<VehicleSelectionScreen> {
+  int _selectedIndex = 0;
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+
+    if (index == 3) {
+      // Navigate to ProfilePage when avatar is tapped
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const ProfilePage()),
+      );
+    } else {
+      // Handle other tabs if necessary (like map, search, favorites)
+      // For now, this only handles the Profile tab
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,9 +70,7 @@ class VehicleSelectionScreen extends StatelessWidget {
               ),
               child: Stack(
                 children: [
-                  // Reusable Google Map Widget
-                  const MapPage(),  // Use the imported MapWidget here
-
+                  const MapPage(),  // Reusable Google Map Widget
                   Positioned(
                     top: 10,
                     left: 10,
@@ -87,7 +110,6 @@ class VehicleSelectionScreen extends StatelessWidget {
           ),
         ],
       ),
-      // Bottom Navigation
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.white,
         items: const <BottomNavigationBarItem>[
@@ -108,11 +130,13 @@ class VehicleSelectionScreen extends StatelessWidget {
               backgroundImage: AssetImage('assets/images.png'),
               radius: 12,
             ),
-            label: '',
+            label: 'Profile',
           ),
         ],
+        currentIndex: _selectedIndex,
         selectedItemColor: Colors.black,
         unselectedItemColor: Colors.black,
+        onTap: _onItemTapped,
       ),
     );
   }
@@ -171,6 +195,7 @@ class VehicleSelectionScreen extends StatelessWidget {
     );
   }
 }
+
 
 void main() {
   runApp(const MaterialApp(
