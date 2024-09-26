@@ -29,7 +29,8 @@ class ProfilePage extends StatelessWidget {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {
-            print('Back button pressed');
+            // Navigate back to the home page or previous screen
+            Navigator.pop(context); // Use this to go back to the previous screen
           },
         ),
       ),

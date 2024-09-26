@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'profile_screen.dart';
 
 void main() {
   runApp(const RideHistoryApp());
@@ -35,6 +36,18 @@ class RideHistoryPage extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Ride History'),
         centerTitle: true,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            // Navigate back to the ProfilePage
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const ProfilePage(),
+              ),
+            );
+          },
+        ),
         flexibleSpace: Container(
           decoration: const BoxDecoration(
             gradient: LinearGradient(
@@ -128,6 +141,12 @@ class RideDetailPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(ride.cycleType),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context); // Navigate back to the Ride History page
+          },
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -162,3 +181,4 @@ class Ride {
 
   Ride(this.cycleType, this.date, this.time, this.duration, this.cost, this.icon, this.color);
 }
+

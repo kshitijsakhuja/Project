@@ -104,6 +104,10 @@ class _VehicleSelectionScreenState extends State<VehicleSelectionScreen> {
               child: ListView(
                 children: [
                   buildVehicleCard(context, 'Bike', '429 km', '6 min', '24'),
+                  buildVehicleCard(context, 'Electric Scooter', '123 km', '8 min', '35'),
+                  buildVehicleCard(context, 'Road Bike', '300 km', '5 min', '18'),
+                  buildVehicleCard(context, 'Hybrid Bike', '220 km', '7 min', '22'),
+                  buildVehicleCard(context, 'Mountain Bike', '150 km', '9 min', '28'),
                 ],
               ),
             ),
@@ -149,7 +153,7 @@ class _VehicleSelectionScreenState extends State<VehicleSelectionScreen> {
         child: Row(
           children: [
             Image.asset(
-              'assets/icons/electric_bike.png',
+              'assets/icons/electric_bike.png', // Update asset for different vehicle types
               height: 80,
               width: 120,
             ),
@@ -195,7 +199,6 @@ class _VehicleSelectionScreenState extends State<VehicleSelectionScreen> {
     );
   }
 }
-
 
 void main() {
   runApp(const MaterialApp(
