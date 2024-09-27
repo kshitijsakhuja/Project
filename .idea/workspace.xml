@@ -4,7 +4,17 @@
     <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="945dffee-cf1b-4188-98d7-f46e51fb404e" name="Changes" comment="" />
+    <list default="true" id="945dffee-cf1b-4188-98d7-f46e51fb404e" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/caches/deviceStreaming.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/lib/onboarding_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/project/lib/onboarding_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/lib/phone_verification_screen.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/lib/signup_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/project/lib/signup_page.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/macos/Flutter/GeneratedPluginRegistrant.swift" beforeDir="false" afterPath="$PROJECT_DIR$/project/macos/Flutter/GeneratedPluginRegistrant.swift" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/project/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/windows/flutter/generated_plugin_registrant.cc" beforeDir="false" afterPath="$PROJECT_DIR$/project/windows/flutter/generated_plugin_registrant.cc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/windows/flutter/generated_plugins.cmake" beforeDir="false" afterPath="$PROJECT_DIR$/project/windows/flutter/generated_plugins.cmake" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -19,12 +29,12 @@
   <component name="GitHubPullRequestSearchHistory">{
   &quot;lastFilter&quot;: {}
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/kshitijsakhuja/Project.git",
-    "accountId": "08898ef9-b19d-4128-9b9c-a93448f602be"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/kshitijsakhuja/Project.git&quot;,
+    &quot;accountId&quot;: &quot;49b30733-63bf-44e9-a515-0b683f84a6c0&quot;
   }
-}]]></component>
+}</component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
   </component>
