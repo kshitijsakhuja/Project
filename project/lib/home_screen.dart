@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart'; // Don't forget this import
 import 'map_page.dart'; // Import the MapWidget
 import 'profile_screen.dart';
 
@@ -26,7 +25,6 @@ class _VehicleSelectionScreenState extends State<VehicleSelectionScreen> {
       );
     } else {
       // Handle other tabs if necessary (like map, search, favorites)
-      // For now, this only handles the Profile tab
     }
   }
 
@@ -34,29 +32,27 @@ class _VehicleSelectionScreenState extends State<VehicleSelectionScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () {},
+        automaticallyImplyLeading: false,
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Color(0xFF1DB954), Color(0xFF1DB954)],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            ),
+          ),
         ),
+        elevation: 6,
+        shadowColor: Colors.green.shade200,
         actions: [
           IconButton(
-            icon: const Icon(Icons.notifications, color: Colors.black),
+            icon: const Icon(Icons.notifications, color: Colors.white),
             onPressed: () {},
           ),
         ],
-        title: DropdownButton<String>(
-          value: "India",
-          icon: const Icon(Icons.arrow_drop_down),
-          onChanged: (String? newValue) {},
-          items: <String>['Singapore', 'New York', 'London', 'India']
-              .map<DropdownMenuItem<String>>((String value) {
-            return DropdownMenuItem<String>(
-              value: value,
-              child: Text(value),
-            );
-          }).toList(),
+        title: const Text(
+          'ZoopE',
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 24),
         ),
       ),
       body: Column(
@@ -68,32 +64,7 @@ class _VehicleSelectionScreenState extends State<VehicleSelectionScreen> {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
               ),
-              child: Stack(
-                children: [
-                  const MapPage(),  // Reusable Google Map Widget
-                  Positioned(
-                    top: 10,
-                    left: 10,
-                    child: Row(
-                      children: [
-                        ElevatedButton(
-                          onPressed: () {},
-                          child: const Text('Nearby'),
-                        ),
-                        const SizedBox(width: 10),
-                        ElevatedButton(
-                          onPressed: () {},
-                          child: const Text('Cheapest'),
-                        ),
-                        IconButton(
-                          icon: const Icon(Icons.filter_alt_outlined),
-                          onPressed: () {},
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+              child: const MapPage(), // Reusable Google Map Widget
             ),
           ),
           // Vehicle Section
@@ -103,44 +74,57 @@ class _VehicleSelectionScreenState extends State<VehicleSelectionScreen> {
               padding: const EdgeInsets.all(16),
               child: ListView(
                 children: [
-                  buildVehicleCard(context, 'Bike', '429 km', '6 min', '24'),
-                  buildVehicleCard(context, 'Electric Scooter', '123 km', '8 min', '35'),
                   buildVehicleCard(context, 'Road Bike', '300 km', '5 min', '18'),
-                  buildVehicleCard(context, 'Hybrid Bike', '220 km', '7 min', '22'),
-                  buildVehicleCard(context, 'Mountain Bike', '150 km', '9 min', '28'),
+                  buildVehicleCard(context, 'Mountain Bike', '150 km', '9 min', '27'),
+                  buildVehicleCard(context, 'Hybrid Bike', '220 km', '7 min', '35'),
                 ],
               ),
             ),
           ),
         ],
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.white,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.map),
-            label: 'Map',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: 'Search',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.favorite),
-            label: 'Favorites',
-          ),
-          BottomNavigationBarItem(
-            icon: CircleAvatar(
-              backgroundImage: AssetImage('assets/images.png'),
-              radius: 12,
+      // BottomNavigationBar with transparent background and shadow
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          color: Colors.white.withOpacity(0.7), // Make the background slightly transparent
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.1), // Light shadow
+              spreadRadius: 5,
+              blurRadius: 15,
+              offset: const Offset(0, 3), // Shadow position
             ),
-            label: 'Profile',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.black,
-        unselectedItemColor: Colors.black,
-        onTap: _onItemTapped,
+          ],
+        ),
+        child: BottomNavigationBar(
+          backgroundColor: Colors.transparent, // Transparent background for the bar itself
+          elevation: 0, // Remove the default elevation since we added our own shadow
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: Icon(Icons.map, color: Colors.green),
+              label: 'Map',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.search, color: Colors.green),
+              label: 'Search',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.favorite, color: Colors.green),
+              label: 'Favorites',
+            ),
+            BottomNavigationBarItem(
+              icon: CircleAvatar(
+                backgroundImage: AssetImage('assets/images.png'),
+                radius: 12,
+              ),
+              label: 'Profile',
+            ),
+          ],
+          currentIndex: _selectedIndex,
+          selectedItemColor: Colors.green,
+          unselectedItemColor: Colors.green.shade200,
+          onTap: _onItemTapped,
+        ),
       ),
     );
   }
@@ -148,6 +132,8 @@ class _VehicleSelectionScreenState extends State<VehicleSelectionScreen> {
   Widget buildVehicleCard(BuildContext context, String name, String distance, String time, String price) {
     return Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+      elevation: 5,
+      shadowColor: Colors.green.shade100,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Row(
@@ -163,18 +149,18 @@ class _VehicleSelectionScreenState extends State<VehicleSelectionScreen> {
               children: [
                 Text(
                   name,
-                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Colors.green),
                 ),
                 const SizedBox(height: 4),
                 Row(
                   children: [
                     const Icon(Icons.battery_charging_full, size: 16, color: Colors.grey),
                     const SizedBox(width: 4),
-                    Text(distance),
+                    Text(distance, style: const TextStyle(color: Colors.green)),
                     const SizedBox(width: 16),
                     const Icon(Icons.timer, size: 16, color: Colors.grey),
                     const SizedBox(width: 4),
-                    Text(time),
+                    Text(time, style: const TextStyle(color: Colors.green)),
                   ],
                 ),
                 const SizedBox(height: 8),
@@ -183,12 +169,20 @@ class _VehicleSelectionScreenState extends State<VehicleSelectionScreen> {
                     ElevatedButton(
                       onPressed: () {},
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.white,
+                        backgroundColor: Colors.green.shade100,
+                        foregroundColor: Colors.green,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        shadowColor: Colors.green.shade200,
                       ),
                       child: const Text('Book'),
                     ),
                     const SizedBox(width: 16),
-                    Text('\₹$price/h', style: const TextStyle(fontSize: 16)),
+                    Text(
+                      '\₹$price/h',
+                      style: const TextStyle(fontSize: 16, color: Colors.green),
+                    ),
                   ],
                 ),
               ],

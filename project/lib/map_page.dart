@@ -67,22 +67,17 @@ class _MapPageState extends State<MapPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: null, // Removed the title
+    return GoogleMap(
+      onMapCreated: _onMapCreated,
+      initialCameraPosition: CameraPosition(
+        target: _initialPosition,
+        zoom: 10.0,
       ),
-      body: GoogleMap(
-        onMapCreated: _onMapCreated,
-        initialCameraPosition: CameraPosition(
-          target: _initialPosition,
-          zoom: 10.0,
-        ),
-        markers: _markers, // Display the markers
-        polylines: _polylines, // Display the polylines
-        myLocationEnabled: true, // Enable showing the user's current location
-        myLocationButtonEnabled: true, // Enable the location button
-        mapType: MapType.normal,
-      ),
+      markers: _markers, // Display the markers
+      polylines: _polylines, // Display the polylines
+      myLocationEnabled: true, // Enable showing the user's current location
+      myLocationButtonEnabled: true, // Enable the location button
+      mapType: MapType.normal,
     );
   }
 }

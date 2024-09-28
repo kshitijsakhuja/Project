@@ -87,13 +87,9 @@ class OnboardingScreen extends StatelessWidget {
                     ),
                     onPressed: () {
                       debugPrint('Get Started button pressed.');
-                      // Optionally show a snackbar for feedback
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text('Navigating to Sign Up')),
-                      );
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => const SignUpPage()),
+                        MaterialPageRoute(builder: (context) => const SignUpScreen()),
                       );
                     },
                     child: const Row(
@@ -118,11 +114,7 @@ class OnboardingScreen extends StatelessWidget {
                       ),
                       GestureDetector(
                         onTap: () {
-                          debugPrint('Login text tapped.');
-                          // Optionally show a snackbar for feedback
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Navigating to Login')),
-                          );
+                          print('Login text tapped.');
                           Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) => const LoginScreen()), // Corrected navigation
@@ -147,3 +139,4 @@ class OnboardingScreen extends StatelessWidget {
     );
   }
 }
+
