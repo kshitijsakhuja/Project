@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:video_player/video_player.dart';
-import 'login_screen.dart';
 import 'signup_page.dart';
 
 void main() {
@@ -12,165 +10,110 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'ZoopE',
-      theme: ThemeData(
-        primarySwatch: Colors.green,
-      ),
-      home: const OnboardingScreen(),
-      debugShowCheckedModeBanner: false,
+    return const MaterialApp(
+      home: WelcomeScreen(),
     );
   }
 }
 
-class OnboardingScreen extends StatefulWidget {
-  const OnboardingScreen({super.key});
-
-  @override
-  State<OnboardingScreen> createState() => _OnboardingScreenState();
-}
-
-class _OnboardingScreenState extends State<OnboardingScreen> with SingleTickerProviderStateMixin {
-  late VideoPlayerController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = VideoPlayerController.asset('assets/background_video.mp4') // Ensure this asset exists and is registered in pubspec.yaml
-      ..initialize().then((_) {
-        setState(() {}); // Update the UI once the video is initialized
-        _controller.play();
-        _controller.setLooping(true); // Loop the video
-      });
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
+class WelcomeScreen extends StatelessWidget {
+  const WelcomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.transparent, // Make the background transparent
-      body: SafeArea(
-        child: Stack(
-          children: [
-            if (_controller.value.isInitialized) // Check if the video is initialized
-              AspectRatio(
-                aspectRatio: _controller.value.aspectRatio,
-                child: VideoPlayer(_controller),
+      body: Stack(
+        children: [
+          // Background Image
+          Container(
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage('assets/bike_image.jpg'), // Replace with your image asset
+                fit: BoxFit.cover,
               ),
-            const Column(
+            ),
+          ),
+          // Gradient Overlay
+          Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Colors.black.withOpacity(0.6), Colors.black.withOpacity(0.3)],
+                begin: Alignment.bottomCenter,
+                end: Alignment.topCenter,
+              ),
+            ),
+          ),
+          // Content
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 40.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Padding(
-                  padding: EdgeInsets.all(16.0),
-                  child: Text(
-                    'ZoopE',
-                    style: TextStyle(
-                      color: Colors.white, // Ensure text is visible on the video
-                      fontSize: 26.0,
-                      fontWeight: FontWeight.bold,
-                      backgroundColor: Colors.transparent, // Transparent background
-                    ),
+                // Welcome Text
+                Text(
+                  "WELCOME",
+                  style: TextStyle(
+                    color: Colors.white.withOpacity(0.7),
+                    fontSize: 18,
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Flexible(
+                const SizedBox(height: 10),
+                // Main Text
+                const Text(
+                  "Long time\nno see.",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 36,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 30),
+                // Create Account Button
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const SignUpScreen()),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF689F38),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    padding: const EdgeInsets.symmetric(vertical: 15),
+                  ),
+                  child: const Center(
                     child: Text(
-                      'Feel the joy,\ntake the ride\nRent a bike!',
-                      style: TextStyle(
-                        color: Colors.white, // Ensure text is visible
-                        fontSize: 34.0,
-                        fontWeight: FontWeight.bold,
-                        height: 1.3,
-                        backgroundColor: Colors.transparent, // Transparent background
-                      ),
+                      'Create Account',
+                      style: TextStyle(color: Colors.white, fontSize: 18),
                     ),
                   ),
                 ),
-                Spacer(),
+                const SizedBox(height: 10),  // Spacing between buttons
+                // Sign up with Google Button
+                ElevatedButton(
+                  onPressed: () {},
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF689F38),  // Same color as Create Account
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    padding: const EdgeInsets.symmetric(vertical: 15),
+                  ),
+                  child: const Center(
+                    child: Text(
+                      'Sign up with Google',
+                      style: TextStyle(color: Colors.white, fontSize: 18), // Same text style
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20), // Bottom Padding
               ],
             ),
-            Positioned(
-              bottom: 30.0,
-              left: 16.0,
-              right: 16.0,
-              child: Column(
-                children: [
-                  ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.green.withOpacity(0.8), // Semi-transparent green
-                      padding: const EdgeInsets.symmetric(vertical: 18.0),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12.0),
-                      ),
-                      elevation: 6.0,
-                      shadowColor: Colors.greenAccent.withOpacity(0.4), // Semi-transparent shadow
-                    ),
-                    onPressed: () {
-                      debugPrint('Get Started button pressed.');
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => const SignUpScreen()),
-                      );
-                    },
-                    child: const Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Get Started',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18.0,
-                            backgroundColor: Colors.transparent, // Transparent background
-                          ),
-                        ),
-                        SizedBox(width: 8.0),
-                        Icon(Icons.arrow_forward, color: Colors.white),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 16.0),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text(
-                        'Already have an account? ',
-                        style: TextStyle(
-                          color: Colors.white, // Ensure text is visible
-                          fontSize: 16.0,
-                          backgroundColor: Colors.transparent, // Transparent background
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          print('Login text tapped.');
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => const LoginScreen()),
-                          );
-                        },
-                        child: const Text(
-                          'Login',
-                          style: TextStyle(
-                            color: Colors.greenAccent, // Highlighted text color
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16.0,
-                            backgroundColor: Colors.transparent, // Transparent background
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

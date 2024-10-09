@@ -10,7 +10,7 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
-  late Animation<double> _fadeAnimation;
+  late Animation<double> _fadeInOutAnimation;
   late Animation<double> _scaleAnimation;
 
   @override
@@ -21,7 +21,7 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
       vsync: this,
     );
 
-    _fadeAnimation = CurvedAnimation(
+    _fadeInOutAnimation = CurvedAnimation(
       parent: _controller,
       curve: Curves.easeInOut,
     );
@@ -33,12 +33,17 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
       ),
     );
 
-    _controller.forward();
+    _controller.forward().then((_) {
+      Future.delayed(const Duration(seconds: 1), () {
+        // Start fade-out effect by reversing the animation
+        _controller.reverse();
+      });
+    });
 
     _controller.addStatusListener((status) {
-      if (status == AnimationStatus.completed) {
+      if (status == AnimationStatus.dismissed) {
         Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => const OnboardingScreen()),
+          MaterialPageRoute(builder: (context) => const WelcomeScreen()),
         );
       }
     });
@@ -55,25 +60,16 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
     return Scaffold(
       body: Stack(
         children: [
-          // Background Gradient
+          // Background (Solid color or plain)
           Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  Colors.greenAccent.shade200,
-                  Colors.green.shade800,
-                ],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
-            ),
+            color: Colors.white, // Change to any color you prefer
           ),
           // Centered logo with animation
           Center(
             child: ScaleTransition(
               scale: _scaleAnimation,
               child: FadeTransition(
-                opacity: _fadeAnimation,
+                opacity: _fadeInOutAnimation,
                 child: Image.asset(
                   'assets/logo.png', // Path to the logo
                   width: 300.0,
@@ -88,12 +84,12 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
             left: 0,
             right: 0,
             child: FadeTransition(
-              opacity: _fadeAnimation,
+              opacity: _fadeInOutAnimation,
               child: const Text(
                 'Welcome to ZoopE',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: Colors.white,
+                  color: Colors.black, // Adjust text color if needed
                   fontSize: 24.0,
                   fontWeight: FontWeight.bold,
                 ),

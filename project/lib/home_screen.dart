@@ -17,15 +17,41 @@ class _VehicleSelectionScreenState extends State<VehicleSelectionScreen> {
       _selectedIndex = index;
     });
 
-    if (index == 3) {
+    if (index == 2) {
       // Navigate to ProfilePage when avatar is tapped
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => const ProfilePage()),
       );
-    } else {
-      // Handle other tabs if necessary (like map, search, favorites)
+    } else if (index == 1) {
+      // Show the SOS alert dialog
+      _showSOSDialog();
     }
+  }
+
+  void _showSOSDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false, // Prevents closing by tapping outside the dialog
+      builder: (BuildContext context) {
+        Future.delayed(const Duration(seconds: 5), () {
+          Navigator.of(context).pop(true); // Close the dialog after 5 seconds
+        });
+
+        return AlertDialog(
+          title: const Text('SOS Alert'),
+          content: const Text('You will be receiving a call in 5 seconds.'),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop(); // Manually close the dialog
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -101,20 +127,16 @@ class _VehicleSelectionScreenState extends State<VehicleSelectionScreen> {
           elevation: 0, // Remove the default elevation since we added our own shadow
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
-              icon: Icon(Icons.map, color: Colors.green),
-              label: 'Map',
+              icon: Icon(Icons.home, color: Colors.green), // Home icon instead of Map
+              label: 'Home',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.search, color: Colors.green),
-              label: 'Search',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.favorite, color: Colors.green),
-              label: 'Favorites',
+              icon: Icon(Icons.warning, color: Colors.red), // SOS button in the middle
+              label: 'SOS',
             ),
             BottomNavigationBarItem(
               icon: CircleAvatar(
-                backgroundImage: AssetImage('assets/images.png'),
+                backgroundImage: AssetImage('assets/images.png'), // Profile image
                 radius: 12,
               ),
               label: 'Profile',
@@ -180,7 +202,7 @@ class _VehicleSelectionScreenState extends State<VehicleSelectionScreen> {
                     ),
                     const SizedBox(width: 16),
                     Text(
-                      '\₹$price/h',
+                      '₹$price/h',
                       style: const TextStyle(fontSize: 16, color: Colors.green),
                     ),
                   ],

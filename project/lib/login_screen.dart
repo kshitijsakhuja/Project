@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'signup_page.dart';
-import 'phone_verification_screen.dart'; // Make sure to import the screen properly
+import 'phone_verification_screen.dart'; // Keep this if you plan to use it elsewhere
 
 void main() {
   runApp(const MyApp());
@@ -25,8 +25,8 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final TextEditingController _phoneController = TextEditingController();
-  String _selectedCountryCode = '+91'; // Default country code
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -82,59 +82,45 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     const SizedBox(height: 20),
                     const Text(
-                      'Login with your phone number',
+                      'Login with your email and password',
                       style: TextStyle(
                         fontSize: 16,
                         color: Colors.black54,
                       ),
                     ),
                     const SizedBox(height: 20),
-                    // Country code dropdown and phone input
-                    Row(
-                      children: [
-                        // Wrapping DropdownButton in a Container to control size
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                          decoration: BoxDecoration(
-                            border: Border.all(color: Colors.grey),
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                          child: DropdownButton<String>(
-                            value: _selectedCountryCode,
-                            items: ['+91', '+1', '+44', '+61', '+81']
-                                .map((code) => DropdownMenuItem<String>(
-                              value: code,
-                              child: Text(code),
-                            ))
-                                .toList(),
-                            onChanged: (value) {
-                              setState(() {
-                                _selectedCountryCode = value!;
-                              });
-                            },
-                            underline: const SizedBox(), // Removing underline
-                          ),
+                    // Email input
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.grey),
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      child: TextField(
+                        controller: _emailController,
+                        keyboardType: TextInputType.emailAddress,
+                        decoration: const InputDecoration(
+                          hintText: 'Email',
+                          border: InputBorder.none, // Removing the default border
                         ),
-                        const SizedBox(width: 10),
-                        // Wrapping TextField in a Container for consistent height
-                        Expanded(
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 10),
-                            decoration: BoxDecoration(
-                              border: Border.all(color: Colors.grey),
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                            child: TextField(
-                              controller: _phoneController,
-                              keyboardType: TextInputType.phone,
-                              decoration: const InputDecoration(
-                                hintText: 'Phone number',
-                                border: InputBorder.none, // Removing the default border
-                              ),
-                            ),
-                          ),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    // Password input
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.grey),
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      child: TextField(
+                        controller: _passwordController,
+                        obscureText: true,
+                        decoration: const InputDecoration(
+                          hintText: 'Password',
+                          border: InputBorder.none, // Removing the default border
                         ),
-                      ],
+                      ),
                     ),
                     const Spacer(),
                     // Log in button
@@ -149,10 +135,11 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                         onPressed: () {
-                          // Print phone number for logging
-                          print('Logging in with phone: ${_phoneController.text}');
+                          // Print email and password for logging
+                          print('Logging in with email: ${_emailController.text}');
+                          print('Password: ${_passwordController.text}');
 
-                          // Navigate to PhoneVerificationScreen with the phone number
+                          // Navigate to PhoneVerificationScreen or any other screen
                           Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -161,7 +148,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           );
                         },
                         child: const Text(
-                          'Verify',
+                          'Log In',
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 16,

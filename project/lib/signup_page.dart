@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'home_screen.dart';
+import 'login_screen.dart'; // Import the LoginScreen
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -9,193 +11,11 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  final _phoneController = TextEditingController();
-  String _countryCode = '+91'; // Default to India code
-  String _verificationId = "";
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        backgroundColor: Colors.green,
-        body: SafeArea(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        // Navigate to LoginScreen
-                      },
-                      child: const Text(
-                        "Log In",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    ),
-                    const SizedBox(width: 16),
-                    const Text(
-                      "Sign Up",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 16),
-              Expanded(
-                child: Container(
-                  width: double.infinity, // Full width
-                  decoration: const BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.vertical(
-                      top: Radius.circular(40),
-                    ),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const SizedBox(height: 16),
-                        const Text(
-                          'Sign up with your phone number',
-                          style: TextStyle(fontSize: 16),
-                        ),
-                        const SizedBox(height: 20),
-                        Row(
-                          children: [
-                            // Country Code Dropdown
-                            Expanded(
-                              flex: 2,
-                              child: DropdownButtonFormField<String>(
-                                decoration: const InputDecoration(
-                                  border: OutlineInputBorder(), // Box style
-                                  contentPadding: EdgeInsets.symmetric(
-                                    vertical: 15.0,
-                                    horizontal: 12.0,
-                                  ),
-                                ),
-                                value: _countryCode,
-                                items: <String>['+91', '+1', '+44', '+61']
-                                    .map<DropdownMenuItem<String>>(
-                                        (String value) {
-                                      return DropdownMenuItem<String>(
-                                        value: value,
-                                        child: Text(value),
-                                      );
-                                    }).toList(),
-                                onChanged: (String? newValue) {
-                                  setState(() {
-                                    _countryCode = newValue!;
-                                  });
-                                },
-                              ),
-                            ),
-                            const SizedBox(width: 10),
-                            // Phone Number Field
-                            Expanded(
-                              flex: 5,
-                              child: TextField(
-                                controller: _phoneController,
-                                keyboardType: TextInputType.phone,
-                                decoration: const InputDecoration(
-                                  hintText: "Phone number",
-                                  border: OutlineInputBorder(), // Box style
-                                  contentPadding: EdgeInsets.symmetric(
-                                    vertical: 15.0,
-                                    horizontal: 12.0,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 20),
-                        const Spacer(), // Spacer pushes the button to the bottom
-                        Center(
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              padding: const EdgeInsets.symmetric(
-                                  vertical: 16.0, horizontal: 40.0),
-                              backgroundColor: Colors.black,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(30.0),
-                              ),
-                            ),
-                            onPressed: () => _sendOtp(),
-                            child: const Text(
-                              'GET OTP',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                                letterSpacing: 1.5,
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: 20), // Spacing under the button
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Future<void> _sendOtp() async {
-    FirebaseAuth _auth = FirebaseAuth.instance;
-    String fullPhoneNumber = '$_countryCode${_phoneController.text.trim()}';
-
-    await _auth.verifyPhoneNumber(
-      phoneNumber: fullPhoneNumber,
-      verificationCompleted: (PhoneAuthCredential credential) async {
-        // Auto verification
-        await _auth.signInWithCredential(credential);
-        print("Phone number automatically verified.");
-      },
-      verificationFailed: (FirebaseAuthException e) {
-        print("Failed to verify phone number: ${e.message}");
-      },
-      codeSent: (String verificationId, int? resendToken) {
-        setState(() {
-          _verificationId = verificationId;
-        });
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => EnterOtpScreen(
-              verificationId: _verificationId,
-            ),
-          ),
-        );
-      },
-      codeAutoRetrievalTimeout: (String verificationId) {
-        setState(() {
-          _verificationId = verificationId;
-        });
-      },
-    );
-  }
-}
-class EnterOtpScreen extends StatelessWidget {
-  final String verificationId;
-  const EnterOtpScreen({super.key, required this.verificationId});
-
-  @override
-  Widget build(BuildContext context) {
-    final _otpController = TextEditingController();
-
     return Scaffold(
       backgroundColor: Colors.green,
       body: SafeArea(
@@ -206,13 +26,27 @@ class EnterOtpScreen extends StatelessWidget {
               padding: const EdgeInsets.all(16.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const [
-                  Text(
-                    "Enter OTP",
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      // Navigate to LoginScreen
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const LoginScreen()),
+                      );
+                    },
+                    child: const Text(
+                      "Log In",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  const Text(
+                    "Sign Up",
                     style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
-                      fontSize: 24,
                     ),
                   ),
                 ],
@@ -235,16 +69,17 @@ class EnterOtpScreen extends StatelessWidget {
                     children: [
                       const SizedBox(height: 16),
                       const Text(
-                        'Enter the OTP sent to your phone',
+                        'Sign up with your email',
                         style: TextStyle(fontSize: 16),
                       ),
                       const SizedBox(height: 20),
+                      // Email Field
                       TextField(
-                        controller: _otpController,
-                        keyboardType: TextInputType.number,
+                        controller: _emailController,
+                        keyboardType: TextInputType.emailAddress,
                         decoration: const InputDecoration(
-                          hintText: "OTP",
-                          border: OutlineInputBorder(), // Box style
+                          hintText: "Email",
+                          border: OutlineInputBorder(),
                           contentPadding: EdgeInsets.symmetric(
                             vertical: 15.0,
                             horizontal: 12.0,
@@ -252,7 +87,21 @@ class EnterOtpScreen extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 20),
-                      const Spacer(),
+                      // Password Field
+                      TextField(
+                        controller: _passwordController,
+                        obscureText: true,
+                        decoration: const InputDecoration(
+                          hintText: "Password",
+                          border: OutlineInputBorder(),
+                          contentPadding: EdgeInsets.symmetric(
+                            vertical: 15.0,
+                            horizontal: 12.0,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+                      const Spacer(), // Spacer pushes the button to the bottom
                       Center(
                         child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
@@ -263,9 +112,9 @@ class EnterOtpScreen extends StatelessWidget {
                               borderRadius: BorderRadius.circular(30.0),
                             ),
                           ),
-                          onPressed: () => _verifyOtp(context, _otpController.text),
+                          onPressed: () => _signUp(context), // Updated here
                           child: const Text(
-                            'VERIFY OTP',
+                            'SIGN UP',
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 16,
@@ -275,6 +124,30 @@ class EnterOtpScreen extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 20), // Spacing under the button
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text("Already have an account? "),
+                          GestureDetector(
+                            onTap: () {
+                              // Navigate to LoginScreen
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => const LoginScreen()),
+                              );
+                            },
+                            child: const Text(
+                              "Log in",
+                              style: TextStyle(
+                                color: Colors.green,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 20), // Extra padding for the bottom
                     ],
                   ),
                 ),
@@ -286,17 +159,22 @@ class EnterOtpScreen extends StatelessWidget {
     );
   }
 
-  Future<void> _verifyOtp(BuildContext context, String otp) async {
+  Future<void> _signUp(BuildContext context) async {
     FirebaseAuth _auth = FirebaseAuth.instance;
     try {
-      PhoneAuthCredential credential = PhoneAuthProvider.credential(
-        verificationId: verificationId,
-        smsCode: otp,
+      await _auth.createUserWithEmailAndPassword(
+        email: _emailController.text.trim(),
+        password: _passwordController.text.trim(),
       );
-      await _auth.signInWithCredential(credential);
-      print("Phone number verified and user signed in.");
+      print("User registered successfully.");
+
+      // Navigate to HomePage after successful registration
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const VehicleSelectionScreen()),
+      );
     } catch (e) {
-      print("Failed to sign in: $e");
+      print("Failed to sign up: $e");
     }
   }
 }
