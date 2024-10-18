@@ -4,6 +4,8 @@ import 'dart:io';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart'; // Import FontAwesome
 import 'home_screen.dart';
+import 'tracking.dart';
+import 'login_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -183,6 +185,8 @@ class _ProfilePageState extends State<ProfilePage> {
                 buildListTile(context, Icons.location_on, 'Request a ZoopE Centre', const ZoopECentrePage(), screenWidth),
                 const SizedBox(height: 12),
                 buildListTile(context, Icons.support_agent, 'Customer Care', const CustomerCarePage(), screenWidth),
+                const SizedBox(height: 12),
+                buildListTile(context, Icons.track_changes, 'Cycle Statistics', const CycleStatisticsScreen(), screenWidth),
               ],
             ),
           ),
@@ -1002,8 +1006,11 @@ class _SettingsPageState extends State<SettingsPage> {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                // Handle logout action
-                Navigator.pop(context); // For example, pop to the previous screen
+                // Navigate to the LoginScreen after logout
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => const SignInPage()),
+                );
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.red, // Logout button color

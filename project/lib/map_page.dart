@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart'; // For getting current location
+import 'dart:math'; // For generating random bike locations
 
 class MapPage extends StatefulWidget {
   const MapPage({super.key});
@@ -15,9 +16,6 @@ class _MapPageState extends State<MapPage> {
 
   // List of markers
   final Set<Marker> _markers = {};
-
-  // List of polylines (for routes)
-  final Set<Polyline> _polylines = {};
 
   @override
   void initState() {
@@ -44,7 +42,7 @@ class _MapPageState extends State<MapPage> {
     // Get the current location
     Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
 
-    // Add a marker at the current location
+    // Update map with user's location and add bike locations
     setState(() {
       LatLng currentLocation = LatLng(position.latitude, position.longitude);
       _markers.add(
@@ -58,7 +56,38 @@ class _MapPageState extends State<MapPage> {
 
       // Move the camera to the current location
       mapController.animateCamera(CameraUpdate.newLatLngZoom(currentLocation, 14));
+
+      // Add multiple bike locations within 5km
+      _addBikeLocations(currentLocation);
     });
+  }
+
+  // Method to generate random bike locations within 5 km
+  void _addBikeLocations(LatLng currentLocation) {
+    final random = Random();
+    const double radius = 5000; // 5 km
+
+    for (int i = 0; i < 5; i++) {
+      double angle = random.nextDouble() * 2 * pi;
+      double distance = random.nextDouble() * radius;
+      double deltaLat = distance * cos(angle) / 111320; // Approx for latitude
+      double deltaLng = distance * sin(angle) / (111320 * cos(currentLocation.latitude * pi / 180));
+
+      LatLng bikeLocation = LatLng(
+        currentLocation.latitude + deltaLat,
+        currentLocation.longitude + deltaLng,
+      );
+
+      // Add bike marker
+      _markers.add(
+        Marker(
+          markerId: MarkerId('bike$i'),
+          position: bikeLocation,
+          infoWindow: InfoWindow(title: 'Bike $i'),
+          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
+        ),
+      );
+    }
   }
 
   void _onMapCreated(GoogleMapController controller) {
@@ -74,7 +103,6 @@ class _MapPageState extends State<MapPage> {
         zoom: 10.0,
       ),
       markers: _markers, // Display the markers
-      polylines: _polylines, // Display the polylines
       myLocationEnabled: true, // Enable showing the user's current location
       myLocationButtonEnabled: true, // Enable the location button
       mapType: MapType.normal,

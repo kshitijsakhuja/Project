@@ -1,168 +1,164 @@
 import 'package:flutter/material.dart';
-import 'signup_page.dart';
-import 'phone_verification_screen.dart'; // Keep this if you plan to use it elsewhere
+import 'home_screen.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const ZoopEApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class ZoopEApp extends StatelessWidget {
+  const ZoopEApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: LoginScreen(),
+      title: 'ZoopE',
+      home: SignInPage(),
     );
   }
 }
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class SignInPage extends StatelessWidget {
+  const SignInPage({super.key});
 
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  Widget build(BuildContext context) {
+    // Create controllers to manage the input
+    final TextEditingController _emailController = TextEditingController();
+    final TextEditingController _passwordController = TextEditingController();
+
+    return Scaffold(
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Text(
+                "Login to ZoopE",
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 30),
+              TextField(
+                controller: _emailController, // Email/Phone input controller
+                decoration: InputDecoration(
+                  hintText: 'Enter phone number or email',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  filled: true,
+                  fillColor: Colors.grey[200],
+                ),
+              ),
+              const SizedBox(height: 16),
+              TextField(
+                controller: _passwordController, // Password input controller
+                obscureText: true, // Mask the password input
+                decoration: InputDecoration(
+                  hintText: 'Enter your password',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  filled: true,
+                  fillColor: Colors.grey[200],
+                ),
+              ),
+              const SizedBox(height: 16),
+              ElevatedButton(
+                onPressed: () {
+                  // Check if both the email/phone and password fields are empty
+                  if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('Please enter both email/phone and password.'),
+                      ),
+                    );
+                  } else {
+                    // Navigate to VehicleSelectionScreen when both inputs are valid
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const VehicleSelectionScreen()),
+                    );
+                  }
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.black, // Continue button color
+                  padding: const EdgeInsets.symmetric(vertical: 14),
+                ),
+                child: const Center(
+                  child: Text(
+                    'Continue',
+                    style: TextStyle(color: Colors.white, fontSize: 16),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
+              const Text('or', style: TextStyle(fontSize: 14, color: Colors.grey)),
+              const SizedBox(height: 20),
+              OutlinedButton.icon(
+                onPressed: () {
+                  // Action for Google Sign-in
+                },
+                icon: const Icon(Icons.g_translate, color: Colors.black),
+                label: const Text(
+                  'Continue with Google',
+                  style: TextStyle(color: Colors.black),
+                ),
+                style: OutlinedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 14),
+                  side: const BorderSide(color: Colors.grey),
+                ),
+              ),
+              const SizedBox(height: 10),
+              OutlinedButton.icon(
+                onPressed: () {
+                  // Action for Apple Sign-in
+                },
+                icon: const Icon(Icons.apple, color: Colors.black),
+                label: const Text(
+                  'Continue with Apple',
+                  style: TextStyle(color: Colors.black),
+                ),
+                style: OutlinedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 14),
+                  side: const BorderSide(color: Colors.grey),
+                ),
+              ),
+              const SizedBox(height: 30),
+              const Text(
+                'By proceeding, you consent to receiving calls, WhatsApp, or SMS/RCS messages, including by automated dialer, from ZoopE and its affiliates to the number provided.',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 12, color: Colors.grey),
+              ),
+              const SizedBox(height: 10),
+              const Text(
+                'Text “STOP” to 89203 to opt out.',
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 12, color: Colors.grey),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 }
 
-class _LoginScreenState extends State<LoginScreen> {
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.green, // Background color for the upper part
-      body: Column(
-        children: [
-          const SizedBox(height: 100), // To push the content a bit down
-          Expanded(
-            child: Container(
-              decoration: const BoxDecoration(
-                color: Colors.white, // Main container background
-                borderRadius: BorderRadius.vertical(
-                  top: Radius.circular(30),
-                ),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Login/Signup tabs
-                    Row(
-                      children: [
-                        const Text(
-                          'Log In',
-                          style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
-                          ),
-                        ),
-                        const SizedBox(width: 20),
-                        GestureDetector(
-                          onTap: () {
-                            // Navigate to SignUpScreen
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const SignUpScreen()),
-                            );
-                          },
-                          child: const Text(
-                            'Sign Up',
-                            style: TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.normal,
-                              color: Colors.grey,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 20),
-                    const Text(
-                      'Login with your email and password',
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Colors.black54,
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    // Email input
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.grey),
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      child: TextField(
-                        controller: _emailController,
-                        keyboardType: TextInputType.emailAddress,
-                        decoration: const InputDecoration(
-                          hintText: 'Email',
-                          border: InputBorder.none, // Removing the default border
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                    // Password input
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      decoration: BoxDecoration(
-                        border: Border.all(color: Colors.grey),
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      child: TextField(
-                        controller: _passwordController,
-                        obscureText: true,
-                        decoration: const InputDecoration(
-                          hintText: 'Password',
-                          border: InputBorder.none, // Removing the default border
-                        ),
-                      ),
-                    ),
-                    const Spacer(),
-                    // Log in button
-                    Center(
-                      child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.black, // Button background
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 50, vertical: 15),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                        onPressed: () {
-                          // Print email and password for logging
-                          print('Logging in with email: ${_emailController.text}');
-                          print('Password: ${_passwordController.text}');
-
-                          // Navigate to PhoneVerificationScreen or any other screen
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const PhoneVerificationScreen(),
-                            ),
-                          );
-                        },
-                        child: const Text(
-                          'Log In',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ],
+      appBar: AppBar(
+        title: const Text('Home Page'),
+        backgroundColor: Colors.black,
+      ),
+      body: const Center(
+        child: Text(
+          'Welcome to ZoopE!',
+          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+        ),
       ),
     );
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'signup_page.dart';
+import 'login_screen.dart';  // Import the login page
 
 void main() {
   runApp(const MyApp());
@@ -61,7 +62,7 @@ class WelcomeScreen extends StatelessWidget {
                 const SizedBox(height: 10),
                 // Main Text
                 const Text(
-                  "Long time\nno see.",
+                  "RIDE RIGHT\nRIDE ZOOPE.",
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 36,
@@ -74,7 +75,7 @@ class WelcomeScreen extends StatelessWidget {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => const SignUpScreen()),
+                      MaterialPageRoute(builder: (context) => const SignUpPage()),
                     );
                   },
                   style: ElevatedButton.styleFrom(
@@ -92,22 +93,31 @@ class WelcomeScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 10),  // Spacing between buttons
-                // Sign up with Google Button
-                ElevatedButton(
-                  onPressed: () {},
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF689F38),  // Same color as Create Account
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
+
+                // 'Already have an account? Log in now.' line
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      "Already have an account? ",
+                      style: TextStyle(color: Colors.white, fontSize: 16),
                     ),
-                    padding: const EdgeInsets.symmetric(vertical: 15),
-                  ),
-                  child: const Center(
-                    child: Text(
-                      'Sign up with Google',
-                      style: TextStyle(color: Colors.white, fontSize: 18), // Same text style
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const SignInPage()),
+                        );
+                      },
+                      child: const Text(
+                        "Log in",
+                        style: TextStyle(
+                          color: Colors.blue,
+                          fontSize: 16,
+                        ),
+                      ),
                     ),
-                  ),
+                  ],
                 ),
                 const SizedBox(height: 20), // Bottom Padding
               ],

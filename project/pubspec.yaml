@@ -42,6 +42,7 @@ dependencies:
   shared_preferences: ^2.3.2
   font_awesome_flutter: ^10.5.0
   video_player: ^2.5.1
+  qr_code_scanner: ^1.0.0
 
 
 
@@ -69,6 +70,7 @@ dev_dependencies:
 flutter:
   assets:
     - assets/logo.png
+    - assets/qr_dimensions.png
     - assets/background.jpg
     - assets/icons/pedal_bike.png
     - assets/icons/electric_bike.png

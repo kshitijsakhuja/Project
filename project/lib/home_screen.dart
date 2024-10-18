@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'map_page.dart'; // Import the MapWidget
 import 'profile_screen.dart';
+import 'book_screen.dart';
 
 class VehicleSelectionScreen extends StatefulWidget {
   const VehicleSelectionScreen({super.key});
@@ -11,6 +12,8 @@ class VehicleSelectionScreen extends StatefulWidget {
 
 class _VehicleSelectionScreenState extends State<VehicleSelectionScreen> {
   int _selectedIndex = 0;
+  TextEditingController _locationController = TextEditingController();
+  TextEditingController _dropLocationController = TextEditingController();
 
   void _onItemTapped(int index) {
     setState(() {
@@ -23,9 +26,6 @@ class _VehicleSelectionScreenState extends State<VehicleSelectionScreen> {
         context,
         MaterialPageRoute(builder: (context) => const ProfilePage()),
       );
-    } else if (index == 1) {
-      // Show the SOS alert dialog
-      _showSOSDialog();
     }
   }
 
@@ -70,82 +70,146 @@ class _VehicleSelectionScreenState extends State<VehicleSelectionScreen> {
         ),
         elevation: 6,
         shadowColor: Colors.green.shade200,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.notifications, color: Colors.white),
-            onPressed: () {},
-          ),
-        ],
-        title: const Text(
-          'ZoopE',
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 24),
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(60.0),
+          child: buildSearchBox(), // Add the search box widget here
         ),
       ),
-      body: Column(
+      body: Stack(
         children: [
           // Map Section
-          Expanded(
-            flex: 2,
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: const MapPage(), // Reusable Google Map Widget
-            ),
+          const Positioned.fill(
+            child: MapPage(), // Reusable Google Map Widget
           ),
-          // Vehicle Section
-          Expanded(
-            flex: 1,
-            child: Container(
-              padding: const EdgeInsets.all(16),
-              child: ListView(
-                children: [
-                  buildVehicleCard(context, 'Road Bike', '300 km', '5 min', '18'),
-                  buildVehicleCard(context, 'Mountain Bike', '150 km', '9 min', '27'),
-                  buildVehicleCard(context, 'Hybrid Bike', '220 km', '7 min', '35'),
-                ],
-              ),
-            ),
+          // DraggableScrollableSheet for the Vehicle Section
+          DraggableScrollableSheet(
+            initialChildSize: 0.4, // Initial size (percentage of screen)
+            minChildSize: 0.3,     // Minimum size (percentage of screen)
+            maxChildSize: 0.8,     // Maximum size (percentage of screen)
+            builder: (BuildContext context, ScrollController scrollController) {
+              return Container(
+                decoration: const BoxDecoration(
+                  color: Colors.white, // Ensure it has a background color
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(20),
+                    topRight: Radius.circular(20),
+                  ),
+                ),
+                child: ListView(
+                  padding: EdgeInsets.zero, // Remove extra spacing
+                  controller: scrollController,
+                  children: [
+                    buildVehicleCard(context, 'Road Bike', '300 km', '5 min', '18'),
+                    buildVehicleCard(context, 'Mountain Bike', '150 km', '9 min', '27'),
+                    buildVehicleCard(context, 'Hybrid Bike', '220 km', '7 min', '35'),
+                  ],
+                ),
+              );
+            },
           ),
         ],
       ),
-      // BottomNavigationBar with transparent background and shadow
-      bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.7), // Make the background slightly transparent
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.1), // Light shadow
-              spreadRadius: 5,
-              blurRadius: 15,
-              offset: const Offset(0, 3), // Shadow position
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.red,
+        onPressed: _showSOSDialog,
+        child: const Icon(Icons.warning),
+      ),
+      bottomNavigationBar: BottomAppBar(
+        shape: const CircularNotchedRectangle(),
+        notchMargin: 10.0,
+        elevation: 0, // Remove the box shadow effect
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            IconButton(
+              icon: const Icon(Icons.home, color: Colors.green),
+              onPressed: () {
+                setState(() {
+                  _selectedIndex = 0; // Navigate to the home section
+                });
+              },
+            ),
+            IconButton(
+              icon: const Icon(Icons.person, color: Colors.green),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const ProfilePage()),
+                );
+              },
             ),
           ],
         ),
-        child: BottomNavigationBar(
-          backgroundColor: Colors.transparent, // Transparent background for the bar itself
-          elevation: 0, // Remove the default elevation since we added our own shadow
-          items: const <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Icon(Icons.home, color: Colors.green), // Home icon instead of Map
-              label: 'Home',
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.warning, color: Colors.red), // SOS button in the middle
-              label: 'SOS',
-            ),
-            BottomNavigationBarItem(
-              icon: CircleAvatar(
-                backgroundImage: AssetImage('assets/images.png'), // Profile image
-                radius: 12,
+      ),
+    );
+  }
+
+  // Search Box Widget based on the image provided
+  Widget buildSearchBox() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      child: GestureDetector(
+        onTap: () {
+          // Request focus on tap
+          FocusScope.of(context).requestFocus(FocusNode());
+        },
+        child: Column(
+          children: [
+            // Pickup Location TextField
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.black,
+                borderRadius: BorderRadius.circular(30),
+                border: Border.all(
+                  color: Colors.grey.shade400,
+                  width: 1,
+                ),
               ),
-              label: 'Profile',
+              child: TextField(
+                controller: _locationController,
+                decoration: const InputDecoration(
+                  border: InputBorder.none,
+                  hintText: 'Enter pickup location',
+                  hintStyle: TextStyle(color: Colors.white70),
+                  contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                ),
+                style: const TextStyle(color: Colors.white),
+                onTap: () {
+                  if (_locationController.text.isEmpty) {
+                    _locationController.clear();
+                  }
+                },
+              ),
+            ),
+            const SizedBox(height: 16), // Add space between the fields
+            // Drop-off Location TextField
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.black,
+                borderRadius: BorderRadius.circular(30),
+                border: Border.all(
+                  color: Colors.grey.shade400,
+                  width: 1,
+                ),
+              ),
+              child: TextField(
+                controller: _dropLocationController,
+                decoration: const InputDecoration(
+                  border: InputBorder.none,
+                  hintText: 'Enter drop-off location',
+                  hintStyle: TextStyle(color: Colors.white70),
+                  contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                ),
+                style: const TextStyle(color: Colors.white),
+                onTap: () {
+                  if (_dropLocationController.text.isEmpty) {
+                    _dropLocationController.clear();
+                  }
+                },
+              ),
             ),
           ],
-          currentIndex: _selectedIndex,
-          selectedItemColor: Colors.green,
-          unselectedItemColor: Colors.green.shade200,
-          onTap: _onItemTapped,
         ),
       ),
     );
@@ -189,22 +253,24 @@ class _VehicleSelectionScreenState extends State<VehicleSelectionScreen> {
                 Row(
                   children: [
                     ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        // Navigate to BookPage
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => QRScannerPage()),
+                        );
+                      },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.green.shade100,
                         foregroundColor: Colors.green,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        shadowColor: Colors.green.shade200,
                       ),
-                      child: const Text('Book'),
+                      child: const Text('Book Now'),
                     ),
-                    const SizedBox(width: 16),
-                    Text(
-                      '₹$price/h',
-                      style: const TextStyle(fontSize: 16, color: Colors.green),
-                    ),
+                    const SizedBox(width: 10),
+                    Text('₹$price/hr', style: const TextStyle(color: Colors.green)),
                   ],
                 ),
               ],
