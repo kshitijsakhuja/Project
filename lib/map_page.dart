@@ -65,7 +65,7 @@ class _MapPageState extends State<MapPage> {
   // Method to generate random bike locations within 5 km
   void _addBikeLocations(LatLng currentLocation) {
     final random = Random();
-    const double radius = 5000; // 5 km
+    const double radius = 2000; // 2 km
 
     for (int i = 0; i < 5; i++) {
       double angle = random.nextDouble() * 2 * pi;

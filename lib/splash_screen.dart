@@ -78,24 +78,6 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
               ),
             ),
           ),
-          // Bottom moving text
-          Positioned(
-            bottom: 50,
-            left: 0,
-            right: 0,
-            child: FadeTransition(
-              opacity: _fadeInOutAnimation,
-              child: const Text(
-                'Welcome to ZoopE',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.black, // Adjust text color if needed
-                  fontSize: 24.0,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-          ),
         ],
       ),
     );

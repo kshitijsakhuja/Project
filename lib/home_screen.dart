@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'map_page.dart'; // Import the MapWidget
 import 'profile_screen.dart';
 import 'book_screen.dart';
+import 'bike_detail.dart';
 
 class VehicleSelectionScreen extends StatefulWidget {
   const VehicleSelectionScreen({super.key});
@@ -236,78 +237,75 @@ class _VehicleSelectionScreenState extends State<VehicleSelectionScreen> {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       elevation: 5,
       shadowColor: Colors.green.shade100,
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Row(
-          children: [
-            Image.asset(
-              'assets/icons/electric_bike.png', // Update asset for different vehicle types
-              height: 80,
-              width: 120,
+      child: InkWell( // Make the card clickable
+        onTap: () {
+          // Navigate to the BikeDetailsPage
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => BikeDetailsPage(
+                bikeName: name,
+                distance: distance,
+                time: time,
+                price: price,
+              ),
             ),
-            const SizedBox(width: 16),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  name,
-                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Colors.green),
-                ),
-                const SizedBox(height: 4),
-                Row(
-                  children: [
-                    const Icon(Icons.battery_charging_full, size: 16, color: Colors.grey),
-                    const SizedBox(width: 4),
-                    Text(distance, style: const TextStyle(color: Colors.green)),
-                    const SizedBox(width: 16),
-                    const Icon(Icons.timer, size: 16, color: Colors.grey),
-                    const SizedBox(width: 4),
-                    Text(time, style: const TextStyle(color: Colors.green)),
-                  ],
-                ),
-                const SizedBox(height: 8),
-                Row(
-                  children: [
-                    ElevatedButton(
-                      onPressed: () {
-                        // Navigate to BookPage
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => QRScannerPage()),
-                        );
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.green.shade100,
-                        foregroundColor: Colors.green,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
-                      child: const Text('Book Now'),
-                    ),
-                    const SizedBox(width: 16),
-                    Text(
-                      '₹$price',
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.green,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ],
+          );
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            children: [
+              Image.asset(
+                'assets/icons/electric_bike.png', // Update asset for different vehicle types
+                height: 80,
+                width: 120,
+              ),
+              const SizedBox(width: 16),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    name,
+                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Colors.green),
+                  ),
+                  const SizedBox(height: 4),
+                  Row(
+                    children: [
+                      const Icon(Icons.battery_charging_full, size: 16, color: Colors.grey),
+                      const SizedBox(width: 4),
+                      Text('$distance remaining', style: const TextStyle(fontSize: 16)),
+                    ],
+                  ),
+                  const SizedBox(height: 4),
+                  Row(
+                    children: [
+                      const Icon(Icons.timer, size: 16, color: Colors.grey),
+                      const SizedBox(width: 4),
+                      Text('$time away', style: const TextStyle(fontSize: 16)),
+                    ],
+                  ),
+                  const SizedBox(height: 4),
+                  Row(
+                    children: [
+                      const Icon(Icons.monetization_on, size: 16, color: Colors.grey),
+                      const SizedBox(width: 4),
+                      Text('\₹$price/hr', style: const TextStyle(fontSize: 16)),
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 }
 
+// Main function should be outside the class
 void main() {
   runApp(const MaterialApp(
-    debugShowCheckedModeBanner: false,
     home: VehicleSelectionScreen(),
   ));
 }

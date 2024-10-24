@@ -989,7 +989,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 // Navigate to Payment Methods Page
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const PaymentMethodScreen()),
+                  MaterialPageRoute(builder: (context) => const PaymentOptionsScreen()),
                 );
               },
             ),
