@@ -1,16 +1,9 @@
 import 'package:flutter/material.dart';
 import 'splash_screen.dart'; // Import the splash screen
-import 'firebase_options.dart'; // Import Firebase options
-import 'package:firebase_core/firebase_core.dart'; // Import Firebase core
+import 'database_helper.dart'; // Import the DatabaseHelper for SQLite
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized(); // Ensures that Firebase is initialized before runApp()
-
-  // Initialize Firebase
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-
+void main() {
+  WidgetsFlutterBinding.ensureInitialized(); // Ensures that SQLite database is initialized before runApp()
   runApp(const MyApp());
 }
 
