@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'database_helper.dart';
+import 'payment_options.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,7 +14,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: BookingPage(), // Set BookingPage as the home
+      home: BookingPage(),
     );
   }
 }
@@ -45,8 +46,8 @@ class _BookingPageState extends State<BookingPage> {
   void _onQRViewCreated(QRViewController controller) {
     controller.scannedDataStream.listen((scanData) {
       setState(() {
-        qrCode = scanData.code!; // Get the QR code data
-        _showBookingDialog(context, qrCode); // Show booking dialog
+        qrCode = scanData.code!;
+        _showBookingDialog(context, qrCode);
       });
     });
   }
@@ -62,8 +63,9 @@ class _BookingPageState extends State<BookingPage> {
             TextButton(
               onPressed: () {
                 Navigator.pop(context); // Close the dialog
+                Navigator.pop(context); // Navigate to the previous page (home page)
                 setState(() {
-                  isQrScanned = false; // Return to the scanner
+                  isQrScanned = false;
                 });
               },
               child: const Text('No'),
@@ -75,7 +77,7 @@ class _BookingPageState extends State<BookingPage> {
                   isQrScanned = true;
                 });
 
-                const userId = 123; // Example integer user ID
+                const userId = 123; // Example user ID
                 const distance = 12.5; // Example distance
                 const startLocation = 'Start Point'; // Example start location
                 const endLocation = 'End Point'; // Example end location
@@ -85,7 +87,7 @@ class _BookingPageState extends State<BookingPage> {
                   userId,
                   qrCode,
                   DateTime.now().toIso8601String(),
-                  '', // Placeholder for end time or handle null in the method
+                  '',
                   startLocation,
                   endLocation,
                   distance,
@@ -108,11 +110,15 @@ class _BookingPageState extends State<BookingPage> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: const Text('Success'),
-          content: const Text('Your ride has been booked!'),
+          //content: const Text('Your ride has been booked!'),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.pop(context); // Close the dialog
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const PaymentMethodScreen()), // Navigate to PaymentPage
+                );
               },
               child: const Text('OK'),
             ),

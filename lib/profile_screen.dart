@@ -7,6 +7,7 @@ import 'home_screen.dart';
 import 'tracking.dart';
 import 'login_screen.dart';
 import 'payment_options.dart';
+import 'about_us.dart';
 
 void main() {
   runApp(const MyApp());
@@ -989,7 +990,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 // Navigate to Payment Methods Page
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const PaymentOptionsScreen()),
+                  MaterialPageRoute(builder: (context) => const PaymentMethodScreen()),
                 );
               },
             ),
@@ -1004,8 +1005,13 @@ class _SettingsPageState extends State<SettingsPage> {
               'Learn more about our service',
               onTap: () {
                 // Navigate to About Us Page
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const AboutUsScreen()),
+                );
               },
             ),
+
             const Divider(),
 
             // Logout Button
