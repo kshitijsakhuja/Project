@@ -75,39 +75,39 @@ class _VehicleSelectionScreenState extends State<VehicleSelectionScreen> {
           child: buildSearchBox(), // Add the search box widget here
         ),
       ),
-      body: Stack(
-        children: [
-          // Map Section
-          const Positioned.fill(
-            child: MapPage(), // Reusable Google Map Widget
-          ),
-          // DraggableScrollableSheet for the Vehicle Section
-          DraggableScrollableSheet(
-            initialChildSize: 0.4, // Initial size (percentage of screen)
-            minChildSize: 0.3,     // Minimum size (percentage of screen)
-            maxChildSize: 0.8,     // Maximum size (percentage of screen)
-            builder: (BuildContext context, ScrollController scrollController) {
-              return Container(
-                decoration: const BoxDecoration(
-                  color: Colors.white, // Ensure it has a background color
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(20),
-                    topRight: Radius.circular(20),
+      body: SafeArea( // Wrap body content in SafeArea to avoid system overlap
+        child: Stack(
+          children: [
+            const Positioned.fill(
+              child: MapPage(), // Reusable Google Map Widget
+            ),
+            DraggableScrollableSheet(
+              initialChildSize: 0.4, // Initial size (percentage of screen)
+              minChildSize: 0.3,     // Minimum size (percentage of screen)
+              maxChildSize: 0.8,     // Maximum size (percentage of screen)
+              builder: (BuildContext context, ScrollController scrollController) {
+                return Container(
+                  decoration: const BoxDecoration(
+                    color: Colors.white, // Ensure it has a background color
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(20),
+                      topRight: Radius.circular(20),
+                    ),
                   ),
-                ),
-                child: ListView(
-                  padding: EdgeInsets.zero, // Remove extra spacing
-                  controller: scrollController,
-                  children: [
-                    buildVehicleCard(context, 'Road Bike', '300 km', '5 min', '18'),
-                    buildVehicleCard(context, 'Mountain Bike', '150 km', '9 min', '27'),
-                    buildVehicleCard(context, 'Hybrid Bike', '220 km', '7 min', '35'),
-                  ],
-                ),
-              );
-            },
-          ),
-        ],
+                  child: ListView(
+                    padding: EdgeInsets.zero, // Remove extra spacing
+                    controller: scrollController,
+                    children: [
+                      buildVehicleCard(context, 'Road Bike', '300 km', '5 min', '18'),
+                      buildVehicleCard(context, 'Mountain Bike', '150 km', '9 min', '27'),
+                      buildVehicleCard(context, 'Hybrid Bike', '220 km', '7 min', '35'),
+                    ],
+                  ),
+                );
+              },
+            ),
+          ],
+        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
@@ -144,6 +144,7 @@ class _VehicleSelectionScreenState extends State<VehicleSelectionScreen> {
       ),
     );
   }
+
 
   // Search Box Widget based on the image provided
   Widget buildSearchBox() {

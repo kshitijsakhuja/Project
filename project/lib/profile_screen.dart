@@ -6,6 +6,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart'; // Import FontA
 import 'home_screen.dart';
 import 'tracking.dart';
 import 'login_screen.dart';
+import 'payment_options.dart';
 
 void main() {
   runApp(const MyApp());
@@ -986,8 +987,13 @@ class _SettingsPageState extends State<SettingsPage> {
               'Manage your payment options',
               onTap: () {
                 // Navigate to Payment Methods Page
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const PaymentOptionsScreen()),
+                );
               },
             ),
+
             const Divider(),
 
             // About Us
