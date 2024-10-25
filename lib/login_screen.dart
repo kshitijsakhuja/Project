@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'database_helper.dart';
 import 'home_screen.dart';
-import 'tracking.dart';
 
 void main() {
   runApp(const ZoopEApp());
@@ -75,6 +73,20 @@ class SignInPage extends StatelessWidget {
                       ),
                     );
                   } else {
+                    // Email validation
+                    String email = _emailController.text;
+                    final emailRegex = RegExp(r'^[^@]+@[^@]+\.[a-zA-Z]{2,}$');
+
+                    // Validate email format
+                    if (!emailRegex.hasMatch(email)) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Please enter a valid email address ending with .com.'),
+                        ),
+                      );
+                      return;
+                    }
+
                     // Navigate to VehicleSelectionScreen when both inputs are valid
                     Navigator.push(
                       context,
@@ -139,111 +151,6 @@ class SignInPage extends StatelessWidget {
               ),
             ],
           ),
-        ),
-      ),
-    );
-  }
-}
-
-
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
-
-  @override
-  _LoginPageState createState() => _LoginPageState();
-}
-
-class _LoginPageState extends State<LoginPage> {
-  final TextEditingController loginController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
-
-  Future<void> _handleLogin() async {
-    if (_formKey.currentState!.validate()) {
-      final user = await DatabaseHelper().queryUserByEmailOrPhone(loginController.text);
-      if (user != null && user['password'] == passwordController.text) {
-        Navigator.pop(context); // Example: Go back to the previous screen
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Invalid email/phone or password')),
-        );
-      }
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Login Page'),
-        backgroundColor: Colors.black,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              TextFormField(
-                controller: loginController,
-                decoration: const InputDecoration(
-                  labelText: 'Email or Phone Number',
-                  border: OutlineInputBorder(),
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your email or phone number';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 16),
-              TextFormField(
-                controller: passwordController,
-                decoration: const InputDecoration(
-                  labelText: 'Password',
-                  border: OutlineInputBorder(),
-                ),
-                obscureText: true,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your password';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: _handleLogin,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.black,
-                  padding: const EdgeInsets.symmetric(vertical: 14),
-                ),
-                child: const Text('Login'),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Home Page'),
-        backgroundColor: Colors.black,
-      ),
-      body: const Center(
-        child: Text(
-          'Welcome to ZoopE!',
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         ),
       ),
     );

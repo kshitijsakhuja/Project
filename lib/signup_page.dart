@@ -98,9 +98,15 @@ class _SignUpPageState extends State<SignUpPage> {
                       if (value == null || value.isEmpty) {
                         return 'Please enter your email';
                       }
+                      // Check for valid email format
+                      final emailRegex = RegExp(r'^[^@]+@[^@]+\.[a-zA-Z]{2,}$');
+                      if (!emailRegex.hasMatch(value)) {
+                        return 'Please enter a valid email (must contain "@" and end with ".com")';
+                      }
                       return null;
                     },
                   ),
+
                   const SizedBox(height: 16),
                   TextFormField(
                     controller: _phoneController, // New phone number field
