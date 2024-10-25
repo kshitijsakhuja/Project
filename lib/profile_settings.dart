@@ -46,6 +46,12 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
       appBar: AppBar(
         title: const Text('Profile Settings'),
         backgroundColor: Colors.greenAccent,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.of(context).pop(); // This will take the user back to the previous page
+          },
+        ),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
@@ -67,6 +73,7 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
       ),
     );
   }
+
 
   // Profile header with profile picture and name
   Widget _buildProfileHeader() {

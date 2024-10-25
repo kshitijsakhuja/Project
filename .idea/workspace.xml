@@ -10,9 +10,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2e5f20ee-821f-4fb1-9266-826377206e38" name="Changes" comment=".">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/login_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/login_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/signup_page.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/signup_page.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/profile_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/profile_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/profile_settings.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/profile_settings.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -238,7 +237,15 @@
       <option name="project" value="LOCAL" />
       <updated>1729881221115</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary=".">
+      <option name="closed" value="true" />
+      <created>1729882310554</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1729882310554</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">

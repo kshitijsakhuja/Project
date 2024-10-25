@@ -432,6 +432,7 @@ final List<Map<String, String>> rideHistory = [
   {'date': '2024-08-01', 'distance': '5.2', 'cost': '50', 'duration': '12', 'speed': '25'},
   {'date': '2024-07-29', 'distance': '3.8', 'cost': '35', 'duration': '9', 'speed': '22'},
   {'date': '2024-07-25', 'distance': '6.0', 'cost': '55', 'duration': '15', 'speed': '24'},
+  {'date': '2024-06-20', 'distance': '10.0', 'cost': '80', 'duration': '30', 'speed': '30'},
 ];
 
 class OffersPage extends StatelessWidget {
@@ -1215,7 +1216,7 @@ class CustomerCarePage extends StatelessWidget {
               const SizedBox(height: 10),
 
               // Phone Contact
-              buildContactOption(Icons.phone, 'Call Us', '+1 234 567 890', context),
+              buildContactOption(Icons.phone, 'Call Us', '+91 747 9471 568', context),
               const SizedBox(height: 10),
 
               // Email Contact
