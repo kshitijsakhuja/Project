@@ -8,6 +8,7 @@ import 'tracking.dart';
 import 'login_screen.dart';
 import 'payment_options.dart';
 import 'about_us.dart';
+import 'profile_settings.dart';
 
 void main() {
   runApp(const MyApp());
@@ -925,9 +926,11 @@ class _SettingsPageState extends State<SettingsPage> {
               'Profile Settings',
               'Update your personal information',
               onTap: () {
-                // Navigate to Profile Settings Page
-                // Uncomment below to navigate to ProfileSettingsPage
-                // Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileSettingsPage()));
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const PaymentMethodScreen()),
+                );Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileSettingsPage())
+                );
               },
             ),
             const Divider(),
