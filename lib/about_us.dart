@@ -27,7 +27,7 @@ class AboutUsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('About Us'),
-        backgroundColor: Colors.orangeAccent,
+        backgroundColor: Colors.greenAccent,
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -52,7 +52,7 @@ class AboutUsScreen extends StatelessWidget {
           height: 200,
           decoration: const BoxDecoration(
             image: DecorationImage(
-              image: AssetImage('assets/about_us_background.jpg'),
+              image: AssetImage('assets/logo.png'),
               fit: BoxFit.cover,
             ),
           ),
@@ -88,7 +88,7 @@ class AboutUsScreen extends StatelessWidget {
             style: TextStyle(
               fontSize: 22,
               fontWeight: FontWeight.bold,
-              color: Colors.orangeAccent,
+              color: Colors.greenAccent,
             ),
           ),
           SizedBox(height: 10),
@@ -118,7 +118,7 @@ class AboutUsScreen extends StatelessWidget {
             style: TextStyle(
               fontSize: 22,
               fontWeight: FontWeight.bold,
-              color: Colors.orangeAccent,
+              color: Colors.greenAccent,
             ),
           ),
           SizedBox(height: 10),
@@ -147,7 +147,7 @@ class AboutUsScreen extends StatelessWidget {
             style: TextStyle(
               fontSize: 22,
               fontWeight: FontWeight.bold,
-              color: Colors.orangeAccent,
+              color: Colors.greenAccent,
             ),
           ),
           const SizedBox(height: 10),
@@ -185,7 +185,7 @@ class AboutUsScreen extends StatelessWidget {
   }) {
     return Column(
       children: [
-        Icon(icon, size: 40, color: Colors.orangeAccent),
+        Icon(icon, size: 40, color: Colors.greenAccent),
         const SizedBox(height: 10),
         Text(
           title,
@@ -224,7 +224,7 @@ class AboutUsScreen extends StatelessWidget {
             style: TextStyle(
               fontSize: 22,
               fontWeight: FontWeight.bold,
-              color: Colors.orangeAccent,
+              color: Colors.greenAccent,
             ),
           ),
           const SizedBox(height: 10),
@@ -233,7 +233,7 @@ class AboutUsScreen extends StatelessWidget {
               Icon(Icons.email, color: Colors.black54),
               SizedBox(width: 10),
               Text(
-                'contact@ourcompany.com',
+                'ZoopE@company.com',
                 style: TextStyle(fontSize: 16, color: Colors.black87),
               ),
             ],
@@ -244,7 +244,7 @@ class AboutUsScreen extends StatelessWidget {
               Icon(Icons.phone, color: Colors.black54),
               SizedBox(width: 10),
               Text(
-                '+1 234 567 890',
+                '+91 234 567 890',
                 style: TextStyle(fontSize: 16, color: Colors.black87),
               ),
             ],
