@@ -381,8 +381,10 @@ class _ProfileSettingsPageState extends State<ProfileSettingsPage> {
             TextButton(
               child: const Text('Logout'),
               onPressed: () {
-                // Perform logout functionality here
-                Navigator.of(context).pop();
+                // Perform logout functionality here (e.g., clearing session data)
+                Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => const SignInPage()),
+                );
               },
             ),
           ],
