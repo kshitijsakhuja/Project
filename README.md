@@ -1,16 +1,10 @@
-# project
+# ZoopE - Ride Right. Ride ZoopE
 
-A new Flutter project.
+## About the Project
+This project aims to develop a rental-based mobile application for e-bicycles, inspired by models like Yulu. The app promotes a healthy lifestyle and aligns with Sustainable Development Goals (SDGs) by providing eco-friendly transportation. Users can unlock bicycles by their NFC tag or QR code scanning feature, use them for a specific distance, and return them to designated stations. The application integrates features for tracking distance, calculating rental fees based on kilometers traveled, and ensuring bicycles are available at strategic locations. The system1 seeks to enhance urban mobility while addressing environmental and health concerns.
 
-## Getting Started
+## Skills
+Flutter · Mobile Application Development · Cloud Firestore
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Images
+https://drive.google.com/drive/folders/16dGR2aiWk2m5azH9gEI6Wuw7k35RFMSW?usp=drive_link
